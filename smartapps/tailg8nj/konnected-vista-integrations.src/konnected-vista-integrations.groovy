@@ -49,7 +49,7 @@ def updated() {
 }
 
 def initialize() {
-    state.alarmSystemStatus = null
+    state.alarmSystemStatus = location.currentState("alarmSystemStatus")?.value
     subscribe(location, "alarmSystemStatus", alarmHandler)
     subscribe(armedStaySensor, "contact", statusHandler)
     subscribe(armedAwaySensor, "contact", statusHandler)
