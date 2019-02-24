@@ -74,7 +74,7 @@ def alarmHandler(evt) {
 def statusHandler(evt){
   def oldState = state.alarmSystemStatus
   log.debug "Event from ${evt.device} value ${evt.value} with state ${oldState}"
-  if (evt.device == armedStaySensor) {
+  if (armedStaySensor.id.equals(evt.deviceId)) {
     if("open".equals(evt.value) && !"off".equals(oldState)) {
       log.debug "Changing alarm status to off"
       sendLocationEvent(name: "alarmSystemStatus", value: "off")
@@ -82,7 +82,7 @@ def statusHandler(evt){
       log.debug "Changing alarm status to stay"
       sendLocationEvent(name: "alarmSystemStatus", value: "stay")
     }
-  } else if (evt.device == armedAwaySensor) {
+  } else if (armedAwaySensor.id.equals(evt.deviceId)) {
     if("open".equals(evt.value) && !"off".equals(oldState)) {
       log.debug "Changing alarm status to off"
       sendLocationEvent(name: "alarmSystemStatus", value: "off")
