@@ -6,7 +6,7 @@ This set of device handler and smart app adds helpful functionality to your Konn
 
 These features are based upon the work by Dave Parsons in https://help.konnected.io/support/discussions/topics/32000001630. Specifically the setup described in [Konnected Alarm Vista20p Setup.pdf](https://help.konnected.io/helpdesk/attachments/32004430083).
 
-I recommend setting option `*84` to `0` to disable auto-stay.
+I recommend setting option `*84` to `3` to override auto-stay.
 
 After getting your Konnect Alarm Interface working with the default "Konnect Momentary Switch" for the key switch relay, Install the device handler "Konnected Key Switch Relay". In the SmartThings IDE, replace the the device type of your key switch with the  new device handler. This will give you the functionality to either push (default 1s) or hold (default 3s) the key switch relay triggering the away and stay modes respectively.
 
