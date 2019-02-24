@@ -49,14 +49,14 @@ def updated() {
 }
 
 def initialize() {
-    state.alarmSystemStatus = location.currentState("alarmSystemStatus")?.value
+    atomicState.alarmSystemStatus = location.currentState("alarmSystemStatus")?.value
     subscribe(location, "alarmSystemStatus", alarmHandler)
     subscribe(armedStaySensor, "contact", statusHandler)
     subscribe(armedAwaySensor, "contact", statusHandler)
 }
 
 def alarmHandler(evt) {
-  def oldState = state.alarmSystemStatus
+  def oldState = atomicState.alarmSystemStatus
   def newState = evt.value
   log.debug "Alarm handler state ${oldState} vs value ${newState}"
   if (!newState.equals(oldState)) {
@@ -67,7 +67,7 @@ def alarmHandler(evt) {
       log.debug "holding key switch"
       keySwitchRelay.hold()
     }
-    state.alarmSystemStatus = newState
+    atomicState.alarmSystemStatus = newState
   }
 }
 
