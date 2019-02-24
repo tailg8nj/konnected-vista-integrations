@@ -9,7 +9,9 @@ Specifically the setup described in [Konnected Alarm Vista20p Setup.pdf](https:/
 
 I recommend additionally setting the field `*84` to `3` to override auto-stay.
 
-After getting your Konnect Alarm Interface working with the default "Konnected Momentary Switch" for the key switch relay, Install the device handler "Konnected Key Switch Relay". In the SmartThings IDE, replace the the device type of your key switch with the  new device handler. This will give you the functionality to either push (default 1s) or hold (default 3s) the key switch relay triggering the away and stay modes respectively.
+When installing the "Konnected (Connect)" smart app, I suggest initially choosing "Konnected Momentary Switch" for the key switch relay. You will change this later. 
+
+Install the device handler "Konnected Key Switch Relay". In the SmartThings IDE, replace the the device type of your key switch relay with the new device handler. This will give you the functionality to either push (default 1s) or hold (default 3s) the key switch relay triggering the away and stay modes respectively.
 
 Next it's time to install the "Konnected Vista Integrations" Smart App. After publishing, you'll be able to add it using the mobile app. Choose the key switch relay above and the two sensors you have attached to the Vista output pins.
 
