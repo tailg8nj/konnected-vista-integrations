@@ -5,13 +5,15 @@ This set of device handler and smart app adds helpful functionality to your Konn
 These features are based upon the work by Dave Parsons in https://help.konnected.io/support/discussions/topics/32000001630. 
 Specifically the setup described in [Konnected Alarm Vista20p Setup.pdf](https://help.konnected.io/helpdesk/attachments/32004430083).
 
-Be sure to add a 2 KΩ as an EOL resistor across the key switch zone as per https://www.manualslib.com/manual/847525/Ademco-Vista-20ps-Series.html?page=16.; Program the zone as an EOL hardware type, not Normally Open.
+_**Discrepancy**_
+
+Be sure to add a 2 KΩ as an EOL resistor across the key switch zone as per https://www.manualslib.com/manual/847525/Ademco-Vista-20ps-Series.html?page=16. Program the zone as an EOL hardware type, not Normally Open.
 
 ## Panel Programming
 
 `*80` Output Functions
 
-A typical way to configure the alarm output functions
+A typical way to configure the alarm output functions. These will be normally open, but stay closed because of action `2` until the system is disarmed.
 
 | Function # | Activated By | Zone Type | Partition # | Action | Output # | What |
 | ---------- | ------------ | --------- | ----------- | ------ | -------- | ---- |
