@@ -2,14 +2,29 @@
 
 This set of device handler and smart app adds helpful functionality to your Konnected Alarm Interface and Vista series alarm panel.
 
-## Installing
-
 These features are based upon the work by Dave Parsons in https://help.konnected.io/support/discussions/topics/32000001630. 
 Specifically the setup described in [Konnected Alarm Vista20p Setup.pdf](https://help.konnected.io/helpdesk/attachments/32004430083).
 
+Be sure to add a 2 K&#2126; as an EOL resistor across the key switch zone as per https://www.manualslib.com/manual/847525/Ademco-Vista-20ps-Series.html?page=16.; Program the zone as an EOL hardware type, not Normally Open.
+
+## Panel Programming
+
+`*80` Output Functions
+
+A typical way to configure the alarm output functions
+
+| Function # | Activated By | Zone Type | Partition # | Action | Output # | What |
+| ---------- | ------------ | --------- | ----------- | ------ | -------- | ---- |
+| 01 | 2 | 21 | 0 | 2 | 18 | Armed Away |
+| 02 | 2 | 22 | 0 | 0 | 18 | Disarmed |
+| 03 | 2 | 20 | 0 | 2 | 17 | Armed Stay |
+| 04 | 2 | 22 | 0 | 0 | 17 | Disarmed |
+
 I recommend additionally setting the field `*84` to `3` to override auto-stay.
 
-When installing the "Konnected (Connect)" smart app, I suggest initially choosing "Konnected Momentary Switch" for the key switch relay. You will change this later. 
+## SmartThings Setup
+
+When discovering a new device in the "Konnected (Connect)" smart app, I suggest initially choosing "Konnected Momentary Switch" for the key switch relay. You will change this later. 
 
 Install the device handler "Konnected Key Switch Relay". In the SmartThings IDE, replace the the device type of your key switch relay with the new device handler. This will give you the functionality to either push (default 1s) or hold (default 3s) the key switch relay triggering the away and stay modes respectively.
 
