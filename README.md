@@ -5,7 +5,7 @@ This set of device handler and smart app adds helpful functionality to your Konn
 These features are based upon the work by Dave Parsons in https://help.konnected.io/support/discussions/topics/32000001630. 
 Specifically the setup described in [Konnected Alarm Vista20p Setup.pdf](https://help.konnected.io/helpdesk/attachments/32004430083).
 
-Be sure to add a 2 K&#2126; as an EOL resistor across the key switch zone as per https://www.manualslib.com/manual/847525/Ademco-Vista-20ps-Series.html?page=16.; Program the zone as an EOL hardware type, not Normally Open.
+Be sure to add a 2 KΩ as an EOL resistor across the key switch zone as per https://www.manualslib.com/manual/847525/Ademco-Vista-20ps-Series.html?page=16.; Program the zone as an EOL hardware type, not Normally Open.
 
 ## Panel Programming
 
