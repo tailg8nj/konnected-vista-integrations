@@ -13,7 +13,7 @@ Be sure to add a 2 KΩ as an EOL resistor across the key switch zone as per [Vis
 
 `*80` Output Functions
 
-A typical way to configure the alarm output functions. These will be normally open, but stay closed because of action `2` until the system is disarmed.
+A typical way to configure the alarm output functions. These will be Normally Open, but stay closed because of action `2` until the system is disarmed.
 
 | Function # | Activated By | Zone Type | Partition # | Action | Output # | What |
 | ---------- | ------------ | --------- | ----------- | ------ | -------- | ---- |
