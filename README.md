@@ -22,7 +22,7 @@ A typical way to configure the alarm output functions. These will be Normally Op
 | 03 | 2 | 20 | 0 | 2 | 17 | Armed Stay |
 | 04 | 2 | 22 | 0 | 0 | 17 | Disarmed |
 
-I recommend additionally setting the field `*84` to `3` to override auto-stay.
+I recommend additionally setting the field `*84` to `0` to override auto-stay.
 
 ## SmartThings Setup
 
