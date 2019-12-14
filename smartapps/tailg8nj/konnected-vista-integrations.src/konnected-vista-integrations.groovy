@@ -101,5 +101,5 @@ def syncAlarmSystemStatus(oldState, sensorId, sensorValue) {
 def statusHandler(evt) {
   def oldState = location.currentState("alarmSystemStatus")?.value
   log.debug "Event from ${evt.device} value ${evt.value} with state ${oldState}"
-  updateAlarmSystemStatus(oldState, evt.deviceId, evt.value)
+  syncAlarmSystemStatus(oldState, evt.deviceId, evt.value)
 }
