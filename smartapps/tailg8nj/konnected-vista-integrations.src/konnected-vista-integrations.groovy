@@ -59,7 +59,7 @@ def getVistaState() {
 }
 
 def initialize() {
-	def oldState = location.currentState("alarmSystemStatus")?.value
+    def oldState = location.currentState("alarmSystemStatus")?.value
     def newState = getVistaState()
     log.debug "Initial SHM status ${oldState} vs Vista status ${newState}"
     syncAlarmSystemStatus(oldState, newState)
@@ -69,30 +69,30 @@ def initialize() {
 }
 
 def shmHandler(evt) {
-  def oldState = getVistaState()
-  def newState = evt.value
-  log.debug "Updated SHM status ${newState} vs Vista status ${oldState}"
-  if (!newState.equals(oldState)) {
-    if (newState.equals("away") || newState.equals("off")) {
-      log.debug "Pushing key switch"
-      keySwitchRelay.push()
-    } else if (newState.equals("stay")) {
-      log.debug "Holding key switch"
-      keySwitchRelay.hold()
+    def oldState = getVistaState()
+    def newState = evt.value
+    log.debug "Updated SHM status ${newState} vs Vista status ${oldState}"
+    if (!newState.equals(oldState)) {
+        if (newState.equals("away") || newState.equals("off")) {
+            log.debug "Pushing key switch"
+            keySwitchRelay.push()
+        } else if (newState.equals("stay")) {
+            log.debug "Holding key switch"
+            keySwitchRelay.hold()
+        }
     }
-  }
 }
 
 def syncAlarmSystemStatus(oldState, newState) {
     if(!oldState.equals(newState)) {
-      log.debug "Changing SHM status to ${newState}"
-      sendLocationEvent(name: "alarmSystemStatus", value: newState)
+        log.debug "Changing SHM status to ${newState}"
+        sendLocationEvent(name: "alarmSystemStatus", value: newState)
     }
 }
 
 def vistaHandler(evt) {
-  def oldState = location.currentState("alarmSystemStatus")?.value
-  def newState = getVistaState()
-  log.debug "Updated Vista status ${newState} vs SHM status ${oldState}"
-  syncAlarmSystemStatus(oldState, newState)
+    def oldState = location.currentState("alarmSystemStatus")?.value
+    def newState = getVistaState()
+    log.debug "Updated Vista status ${newState} vs SHM status ${oldState}"
+    syncAlarmSystemStatus(oldState, newState)
 }
