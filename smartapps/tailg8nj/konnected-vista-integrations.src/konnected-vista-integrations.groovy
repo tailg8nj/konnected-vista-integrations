@@ -49,9 +49,10 @@ def updated() {
 }
 
 def initialize() {
-    state.alarmSystemStatus = location.currentState("alarmSystemStatus")?.value
-    updateAlarmSystemStatus(state.alarmSystemStatus, armedStaySensor.id, armedStaySensor.currentState("contact")?.value)
-    updateAlarmSystemStatus(state.alarmSystemStatus, armedAwaySensor.id, armedAwaySensor.currentState("contact")?.value)
+	def initialState = location.currentState("alarmSystemStatus")?.value
+    state.alarmSystemStatus = initialState
+    syncAlarmSystemStatus(initialState, armedStaySensor.id, armedStaySensor.currentState("contact")?.value)
+    syncAlarmSystemStatus(initialState, armedAwaySensor.id, armedAwaySensor.currentState("contact")?.value)
     subscribe(location, "alarmSystemStatus", alarmHandler)
     subscribe(armedStaySensor, "contact", statusHandler)
     subscribe(armedAwaySensor, "contact", statusHandler)
@@ -73,7 +74,7 @@ def alarmHandler(evt) {
   }
 }
 
-def updateAlarmSystemStatus(oldState, sensorId, sensorValue) {
+def syncAlarmSystemStatus(oldState, sensorId, sensorValue) {
   if (armedStaySensor.id.equals(sensorId)) {
     if("open".equals(sensorValue) && !"off".equals(oldState)) {
       log.debug "Changing alarm status to off"
