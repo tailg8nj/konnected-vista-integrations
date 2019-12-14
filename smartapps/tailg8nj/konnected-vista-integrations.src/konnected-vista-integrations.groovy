@@ -48,58 +48,51 @@ def updated() {
     initialize()
 }
 
-def initialize() {
-	def initialState = location.currentState("alarmSystemStatus")?.value
-    state.alarmSystemStatus = initialState
-    syncAlarmSystemStatus(initialState, armedStaySensor.id, armedStaySensor.currentState("contact")?.value)
-    syncAlarmSystemStatus(initialState, armedAwaySensor.id, armedAwaySensor.currentState("contact")?.value)
-    subscribe(location, "alarmSystemStatus", alarmHandler)
-    subscribe(armedStaySensor, "contact", statusHandler)
-    subscribe(armedAwaySensor, "contact", statusHandler)
+def getVistaState() {
+    if(armedStaySensor.currentState("contact")?.value == "closed") {
+    	return "stay"
+    } else if (armedAwaySensor.currentState("contact")?.value == "closed") {
+    	return "away"
+    } else {
+    	return "off"
+    }
 }
 
-def alarmHandler(evt) {
-  def oldState = state.alarmSystemStatus
+def initialize() {
+	def oldState = location.currentState("alarmSystemStatus")?.value
+    def newState = getVistaState()
+    log.debug "Initial SHM status ${oldState} vs Vista status ${newState}"
+    syncAlarmSystemStatus(oldState, newState)
+    subscribe(location, "alarmSystemStatus", shmHandler)
+    subscribe(armedStaySensor, "contact", vistaHandler)
+    subscribe(armedAwaySensor, "contact", vistaHandler)
+}
+
+def shmHandler(evt) {
+  def oldState = getVistaState()
   def newState = evt.value
-  log.debug "Alarm handler state ${oldState} vs value ${newState}"
+  log.debug "Updated SHM status ${newState} vs Vista status ${oldState}"
   if (!newState.equals(oldState)) {
     if (newState.equals("away") || newState.equals("off")) {
-      log.debug "pushing key switch"
+      log.debug "Pushing key switch"
       keySwitchRelay.push()
     } else if (newState.equals("stay")) {
-      log.debug "holding key switch"
+      log.debug "Holding key switch"
       keySwitchRelay.hold()
     }
-    state.alarmSystemStatus = newState
   }
 }
 
-def syncAlarmSystemStatus(oldState, sensorId, sensorValue) {
-  if (armedStaySensor.id.equals(sensorId)) {
-    if("open".equals(sensorValue) && !"off".equals(oldState)) {
-      log.debug "Changing alarm status to off"
-      state.alarmSystemStatus = "off"
-      sendLocationEvent(name: "alarmSystemStatus", value: "off")
-    } else if ("closed".equals(sensorValue) && "off".equals(oldState)) {
-      log.debug "Changing alarm status to stay"
-      state.alarmSystemStatus = "stay"
-      sendLocationEvent(name: "alarmSystemStatus", value: "stay")
+def syncAlarmSystemStatus(oldState, newState) {
+    if(!oldState.equals(newState)) {
+      log.debug "Changing SHM status to ${newState}"
+      sendLocationEvent(name: "alarmSystemStatus", value: newState)
     }
-  } else if (armedAwaySensor.id.equals(sensorId)) {
-    if("open".equals(sensorValue) && !"off".equals(oldState)) {
-      log.debug "Changing alarm status to off"
-      state.alarmSystemStatus = "off"
-      sendLocationEvent(name: "alarmSystemStatus", value: "off")
-    } else if ("closed".equals(sensorValue) && "off".equals(oldState)) {
-      log.debug "Changing alarm status to away"
-      state.alarmSystemStatus = "away"
-      sendLocationEvent(name: "alarmSystemStatus", value: "away")
-    }  
-  }
 }
 
-def statusHandler(evt) {
+def vistaHandler(evt) {
   def oldState = location.currentState("alarmSystemStatus")?.value
-  log.debug "Event from ${evt.device} value ${evt.value} with state ${oldState}"
-  syncAlarmSystemStatus(oldState, evt.deviceId, evt.value)
+  def newState = getVistaState()
+  log.debug "Updated Vista status ${newState} vs SHM status ${oldState}"
+  syncAlarmSystemStatus(oldState, newState)
 }
